@@ -1,41 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Button } from 'react-native';
 
 class App extends Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      nome: ''
+    }
+    this.entrar = this.entrar.bind(this)
+  }
+
+  entrar() {
+    this.setState({
+      nome: 'Junior'
+    })
+  }
+
   render() {
-
-    let nome = 'Luiz';
-    let img = 'https://files.tecnoblog.net/wp-content/uploads/2018/09/linus-torvalds-dedo-meio-700x394.jpg'
-
-
     return(
-      <View>
-        <Text style={{color:'#ff0000', fontSize: 25, margin: 50}}>
-          Sujeito Programador 
+      <View style={{ marginTop: 40 }}>
+
+        <Text style={{ fontSize: 23, color: 'red', textAlign: 'center'}}> 
+          {this.state.nome} 
         </Text>
 
-        <Text style={{fontSize: 50}}> {nome} </Text>
-
-        <Jobs largura={400} altura={600} nome="Torvald Linux"/>
-
-      </View>
-    )
-  }
-}
-
-class Jobs extends Component{
-  render(){  
-
-    let img = 'https://files.tecnoblog.net/wp-content/uploads/2018/09/linus-torvalds-dedo-meio-700x394.jpg'
-
-    return(
-      <View>
-        <Image 
-          source={{ uri: img}}
-          style={{width: this.props.largura , height: this.props.altura}}
-        />
-        <Text> {this.props.nome} </Text>
+        <Button title='Entrar' onPress={this.entrar} />
       </View>
     )
   }

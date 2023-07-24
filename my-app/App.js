@@ -6,23 +6,36 @@ class App extends Component{
   render() {
 
     let nome = 'Luiz';
-    let img = 'https://www.searchenginejournal.com/wp-content/uploads/2022/06/image-search-1600-x-840-px-62c6dc4ff1eee-sej.png';
+    let img = 'https://files.tecnoblog.net/wp-content/uploads/2018/09/linus-torvalds-dedo-meio-700x394.jpg'
+
 
     return(
       <View>
         <Text style={{color:'#ff0000', fontSize: 25, margin: 50}}>
-          Olá Mundo
+          Sujeito Programador 
         </Text>
 
+        <Text style={{fontSize: 50}}> {nome} </Text>
+
+        <Jobs largura={400} altura={600} nome="Torvald Linux"/>
+
+      </View>
+    )
+  }
+}
+
+class Jobs extends Component{
+  render(){  
+
+    let img = 'https://files.tecnoblog.net/wp-content/uploads/2018/09/linus-torvalds-dedo-meio-700x394.jpg'
+
+    return(
+      <View>
         <Image 
           source={{ uri: img}}
-          style={{width: 300, height: 300}}
+          style={{width: this.props.largura , height: this.props.altura}}
         />
-
-        <Text style={{fontSize: 50, padding: 50}}>
-          {nome}
-        </Text>
-
+        <Text> {this.props.nome} </Text>
       </View>
     )
   }

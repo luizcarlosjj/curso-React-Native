@@ -18,11 +18,11 @@ class App extends Component{
   }
 
   async componentDidMount(){
-    let numeroAleatorio = Math.floor(Math.random() * '366')
+    // let numeroAleatorio = Math.floor(Math.random() * '366')
     const response = await api.get('/frases');
     this.setState({
       frases : response.data,
-      textoFrase : this.frases[numeroAleatorio]
+      // textoFrase : this.frases[numeroAleatorio]
     })
   }
 
@@ -32,7 +32,6 @@ class App extends Component{
     this.setState({
       textoFrase : this.frases[numeroAleatorio],
       img : require('./src/biscoitoAberto.png')
-
     })
   }
 
@@ -45,13 +44,13 @@ class App extends Component{
           style={styles.img}
         />
 
-        <Text 
-          style={styles.textoFrase} 
-          data={this.state.frases} 
+        <Text> {this.state.textoFrase} </Text>
+
+        <FlatList 
+          data={this.state.frases}
           keyExtractor={item => item.id} 
-          renderItem={({item}) => <Frases data={item}/>}>
-            {this.state.textoFrase}   
-        </Text>
+          renderItem={({item}) => <Frases data={item}/>}
+        />
 
         <TouchableOpacity style={styles.botao} onPress={this.componentDidMount}>
           <View style={styles.btnArea}>

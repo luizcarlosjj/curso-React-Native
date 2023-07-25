@@ -3,55 +3,77 @@ import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'reac
 
 class App extends Component{
 
-  constructor(props) {
-    super(props);
+  constructor(props){
+    super(props)
     this.state = {
-      textoFrase : '',
-      img: require('./src/biscoito.png'),
+      timer : 0,
+      textoTroca : 'VAI',
+      ultimo: null
+    }
 
-    };
-
-    this.quebraBiscoito = this.quebraBiscoito.bind(this)
-
-    this.frases = [
-      'A cada hora que passa eu fico mais feliz... Sabe por quê? É uma hora a menos pra eu poder te ver... (Jonathas Hardy)',
-      'Filho que pais amargura, jamais conte com ventura.',
-      'ABRA SUA MENTE E SE REINVENTE!',
-      'Sabe o meu coração? Ele é seu.',
-      'Hoje em dia as pessoas sabem o preço de tudo, mas não sabem o valor de nada',
-      'Fiz um pouco de bem; é a minha melhor obra.',
-      'Não confunda Falta de oportunidade com falta de Vontade!',
-      'Na vida, quem perde o telhado ganha as estrelas.',
-      'Plante o seu melhor todos os dias, seja paz na vida das pessoas, espalhe o AMOR e faça o bem. Deus se agrada de um coração puro, disposto a lutar pelos seus sonhos sem querer prejudicar ninguém. Bom dia!'
-    ];
+    // Variavel do timer do relogio 
+    this.timerNum = null;
+    this.vai = this.vai.bind(this);
+    this.limpar = this.limpar.bind(this);
   }
 
-  quebraBiscoito(){
-    let numeroAleatorio = Math.floor(Math.random() * this.frases.length)
+  vai(){
 
+    if(this.timerNum != null){
+      // para o timer
+      clearInterval(this.timerNum);
+      this.timerNum = null;
+      this.setState({textoTroca : 'VAI'})
+
+    }else {
+      // começa a girar o timer
+      this.timerNum =  setInterval( () => {
+        this.setState({timer: this.state.timer + 0.1})
+      }, 100)
+      this.setState({textoTroca : 'PARAR'})
+
+    }
+  }
+
+  limpar(){
+    if(this.timerNum != null){
+      // para o timer
+      clearInterval(this.timerNum);
+      this.timerNum = null;
+    }
     this.setState({
-      textoFrase : this.frases[numeroAleatorio],
-      img : require('./src/biscoitoAberto.png')
-
+      timer: 0,
+      textoTroca: 'VAI',
+      ultimo: this.state.timer,
     })
   }
 
   render() {
     return(
       <View style={styles.container}>
-
+        
         <Image 
-          source={this.state.img}
+          source={require('./src/cronometro.png')}
           style={styles.img}
         />
 
-        <Text style={styles.textoFrase}>{this.state.textoFrase}</Text>
+        <Text style={styles.timer}>  {this.state.timer.toFixed(1)}  </Text>
+        
+        <View style={styles.btnArea}>
+          <TouchableOpacity style={styles.btn} onPress={this.vai}>
+            <Text style={styles.btnTexto}> {this.state.textoTroca} </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={this.quebraBiscoito}>
-          <View style={styles.btnArea}>
-            <Text style={styles.btnTexto}>Abrir Biscoito</Text>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={this.limpar}>
+            <Text style={styles.btnTexto}> LIMPAR </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.areaUltima}>
+          <Text style={styles.textoUltima}>
+            {this.state.ultimo > 0 ? 'Ultimo tempo: ' + this.state.ultimo.toFixed(2) + 's' : ''}
+          </Text>
+        </View>
 
       </View>
     )
@@ -61,36 +83,41 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  img:{
-    width: 250,
-    height: 250
-  },
-  textoFrase:{
-    fontSize: 20,
-    color: '#dd7b22',
-    margin: 30,
-    textAlign: 'center',
-    fontStyle: 'italic'
-  },
-  botao:{
-    width: 230,
-    height: 50,
-    borderWidth: 2,
-    borderColor: "#dd7b22",
-    borderRadius: 25,
-  },
-  btnArea:{
-    flex:1,
-    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: '#00aeef'
+  },
+  timer:{
+    marginTop: -205,
+    color: '#fff',
+    fontSize: 65,
+    fontWeight: 'bold'
+  },
+  btnArea: {
+    flexDirection: 'row',
+    marginTop: 70,
+    height: 40
+  },
+  btn:{
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    height: 40,
+    margin: 20,
+    borderRadius: 9
   },
   btnTexto:{
-    fontSize: 18,
+    fontSize:20,
     fontWeight: 'bold',
-    color: '#dd7b22'
+    color: '#00aeef'
+  },
+  areaUltima:{
+    marginTop: 50
+  },
+  textoUltima:{
+    fontSize:25,
+    fontStyle: 'italic',
+    color: '#fff'
   }
 })
 
